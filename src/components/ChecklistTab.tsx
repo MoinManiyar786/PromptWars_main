@@ -173,19 +173,19 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
         {/* Checklist Stats */}
         <div className="grid grid-cols-2 gap-4 text-center">
           <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl">
-            <span className="text-[10px] text-slate-405 block">Completed Tasks</span>
-            <span className="text-lg font-bold text-emerald-450">{completedCount}</span>
+            <span className="text-[10px] text-slate-300 block">Completed Tasks</span>
+            <span className="text-lg font-bold text-emerald-400">{completedCount}</span>
           </div>
           <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl">
-            <span className="text-[10px] text-slate-405 block">Remaining Tasks</span>
-            <span className="text-lg font-bold text-slate-300">{items.length - completedCount}</span>
+            <span className="text-[10px] text-slate-300 block">Remaining Tasks</span>
+            <span className="text-lg font-bold text-slate-200">{items.length - completedCount}</span>
           </div>
         </div>
 
         {/* Database Status Indicator */}
         <div className="bg-slate-950/80 border border-slate-850 p-4 rounded-2xl flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] text-slate-400 font-semibold">Cloud Sync</span>
+            <span className="text-[10px] text-slate-300 font-semibold">Cloud Sync</span>
             <span className="text-xs text-white font-medium mt-0.5">
               {firebaseStatus === 'connected' && 'Firestore Live Connection'}
               {firebaseStatus === 'syncing' && 'Synchronizing cloud database...'}
@@ -205,7 +205,9 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
 
         {/* Add Item Form */}
         <form onSubmit={handleAddItem} className="flex flex-col sm:flex-row gap-3 mb-6 bg-slate-950/60 border border-slate-850 p-3 rounded-2xl">
+          <label htmlFor="checklist-new-item" className="sr-only">Add new safety task</label>
           <input
+            id="checklist-new-item"
             type="text"
             value={newItemText}
             onChange={(e) => setNewItemText(e.target.value)}
@@ -213,7 +215,9 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
             className="flex-1 bg-transparent text-sm text-white placeholder-slate-550 border-0 focus:outline-none focus:ring-0"
           />
           <div className="flex gap-2 shrink-0">
+            <label htmlFor="checklist-category-select" className="sr-only">Choose task category</label>
             <select
+              id="checklist-category-select"
               value={newItemCategory}
               onChange={(e: any) => setNewItemCategory(e.target.value)}
               className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
@@ -249,6 +253,7 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
                   <div className="flex items-start gap-3 flex-1">
                     <button
                       onClick={() => toggleItem(item.id)}
+                      aria-label={item.completed ? "Mark task incomplete" : "Mark task complete"}
                       className="text-cyan-400 hover:text-cyan-300 shrink-0 mt-0.5 transition-colors"
                     >
                       {item.completed ? (
@@ -271,6 +276,7 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
 
                   <button
                     onClick={() => deleteItem(item.id)}
+                    aria-label="Delete task"
                     className="text-slate-550 hover:text-red-400 p-1.5 rounded-lg hover:bg-slate-900 transition-colors shrink-0"
                   >
                     <Trash2 className="w-4 h-4" />

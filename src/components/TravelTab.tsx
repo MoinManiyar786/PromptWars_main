@@ -162,10 +162,11 @@ export default function TravelTab() {
 
         <form onSubmit={handleAnalyzeRoute} className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-slate-400 flex items-center gap-1.5 mb-2">
+            <label htmlFor="travel-origin-input" className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
               <MapPin className="h-4.5 w-4.5 text-cyan-400" /> Starting Location
             </label>
             <input
+              id="travel-origin-input"
               type="text"
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
@@ -175,10 +176,11 @@ export default function TravelTab() {
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-400 flex items-center gap-1.5 mb-2">
+            <label htmlFor="travel-destination-input" className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
               <Navigation className="h-4.5 w-4.5 text-rose-450" /> Destination
             </label>
             <input
+              id="travel-destination-input"
               type="text"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}

@@ -72,18 +72,20 @@ export default function WeatherTab({ onLocationChange, initialWeatherData }: Wea
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/60 backdrop-blur-md border border-slate-800 p-4 rounded-2xl">
         <div>
           <h2 className="text-xl font-semibold text-cyan-400">Live Weather & Severe Alerts</h2>
-          <p className="text-sm text-slate-400">Search location or use GPS to track active monsoonal alerts</p>
+          <p className="text-sm text-slate-300">Search location or use GPS to track active monsoonal alerts</p>
         </div>
         <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
+            <label htmlFor="weather-search-input" className="sr-only">Search location name</label>
             <input
+              id="weather-search-input"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search city (e.g. Mumbai)..."
               className="w-full bg-slate-950/80 text-white placeholder-slate-500 text-sm rounded-xl py-2.5 pl-10 pr-4 border border-slate-800 focus:outline-none focus:border-cyan-500 transition-colors"
             />
-            <Search className="absolute left-3 top-3 h-4.5 w-4.5 text-slate-500" />
+            <Search className="absolute left-3 top-3 h-4.5 w-4.5 text-slate-500" aria-hidden="true" />
           </div>
           <button
             type="submit"
@@ -97,9 +99,10 @@ export default function WeatherTab({ onLocationChange, initialWeatherData }: Wea
             onClick={handleGeolocation}
             disabled={loading}
             title="Use current location"
+            aria-label="Use current location"
             className="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl transition-colors disabled:opacity-50"
           >
-            <MapPin className="h-4.5 w-4.5" />
+            <MapPin className="h-4.5 w-4.5" aria-hidden="true" />
           </button>
         </form>
       </div>

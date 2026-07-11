@@ -178,20 +178,23 @@ Ask me anything about storm safety, how to prepare, dealing with floods, or gene
 
         {/* Input Bar */}
         <form onSubmit={handleFormSubmit} className="border-t border-slate-800 p-4 bg-slate-950/50 flex gap-2">
+          <label htmlFor="chat-assistant-input" className="sr-only">Type your safety question</label>
           <input
+            id="chat-assistant-input"
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={loading}
             placeholder="Type your safety question (e.g., 'where to stand during lightning' or in Hindi)..."
-            className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors disabled:opacity-50"
+            className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-550 focus:outline-none focus:border-cyan-500 transition-colors disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
+            aria-label="Send message"
             className="bg-cyan-600 hover:bg-cyan-500 text-white p-2.5 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center"
           >
-            <Send className="h-4 w-4" />
+            <Send className="h-4 w-4" aria-hidden="true" />
           </button>
         </form>
       </div>

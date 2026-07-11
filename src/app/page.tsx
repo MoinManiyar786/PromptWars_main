@@ -75,21 +75,25 @@ export default function Home() {
         </header>
 
         {/* Tab Navigation */}
-        <nav className="flex flex-wrap gap-2 border-b border-slate-900 pb-4 mb-8">
+        <nav className="flex flex-wrap gap-2 border-b border-slate-900 pb-4 mb-8" role="tablist" aria-label="Jal-Kavach Portal sections">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
+                id={`tab-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`panel-${tab.id}`}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 border ${
                   isActive
                     ? 'bg-cyan-600/10 border-cyan-500/50 text-cyan-400 shadow-lg shadow-cyan-950/20'
-                    : 'bg-slate-950/30 border-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-800'
+                    : 'bg-slate-950/30 border-slate-900 text-slate-350 hover:text-slate-200 hover:border-slate-800'
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4" aria-hidden="true" />
                 <span>{tab.name}</span>
               </button>
             );
@@ -101,6 +105,9 @@ export default function Home() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
+              id={`panel-${activeTab}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${activeTab}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
@@ -135,9 +142,9 @@ export default function Home() {
         </main>
 
         {/* Footer */}
-        <footer className="mt-16 pt-6 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500">
+        <footer className="mt-16 pt-6 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-350">
           <div className="flex items-center gap-1.5">
-            <Info className="w-3.5 h-3.5" />
+            <Info className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Designed for Hackathon Excellence. Secure API Routing enabled.</span>
           </div>
           <span>© 2026 Jal-Kavach Portal. All rights reserved.</span>

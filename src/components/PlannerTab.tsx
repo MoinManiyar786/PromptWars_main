@@ -172,21 +172,23 @@ export default function PlannerTab({
         <div className="space-y-5">
           {/* Family Size */}
           <div>
-            <label className="text-xs font-semibold text-slate-400 flex items-center gap-2 mb-2">
+            <label id="family-size-label" className="text-xs font-semibold text-slate-350 flex items-center gap-2 mb-2">
               <Users className="h-4 w-4" /> Family Size
             </label>
-            <div className="flex items-center gap-4 bg-slate-950/60 border border-slate-850 p-3 rounded-2xl">
+            <div className="flex items-center gap-4 bg-slate-950/60 border border-slate-850 p-3 rounded-2xl" aria-labelledby="family-size-label">
               <button
                 type="button"
                 onClick={() => setFamilySize(Math.max(1, familySize - 1))}
+                aria-label="Decrease family size"
                 className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center font-bold"
               >
                 -
               </button>
-              <span className="text-base font-bold text-white flex-1 text-center">{familySize} {familySize === 1 ? 'Person' : 'People'}</span>
+              <span className="text-base font-bold text-white flex-1 text-center" aria-live="polite">{familySize} {familySize === 1 ? 'Person' : 'People'}</span>
               <button
                 type="button"
                 onClick={() => setFamilySize(familySize + 1)}
+                aria-label="Increase family size"
                 className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center font-bold"
               >
                 +
@@ -196,19 +198,21 @@ export default function PlannerTab({
 
           {/* Housing Type */}
           <div>
-            <label className="text-xs font-semibold text-slate-400 flex items-center gap-2 mb-2">
+            <label id="housing-type-label" className="text-xs font-semibold text-slate-350 flex items-center gap-2 mb-2">
               <Home className="h-4 w-4" /> Housing Type
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-labelledby="housing-type-label">
               {housingOptions.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
+                  role="radio"
+                  aria-checked={housingType === opt.value}
                   onClick={() => setHousingType(opt.value)}
                   className={`p-3 rounded-xl border text-xs font-medium transition-all text-center ${
                     housingType === opt.value
                       ? 'bg-cyan-950/40 border-cyan-500 text-cyan-400 shadow-md'
-                      : 'bg-slate-950/60 border-slate-850 text-slate-400 hover:bg-slate-900'
+                      : 'bg-slate-950/60 border-slate-850 text-slate-350 hover:bg-slate-900'
                   }`}
                 >
                   {opt.label}
