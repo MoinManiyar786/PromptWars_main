@@ -1,3 +1,11 @@
+/**
+ * @module WeatherService
+ * @description Fetches real-time weather alerts, precipitation, and conditions
+ * from WeatherAPI.com to drive weather-aware guidance and warning systems.
+ */
+
+import { logger } from '@/lib/logger';
+
 export interface WeatherData {
   location: {
     name: string;
@@ -59,8 +67,13 @@ export async function getWeatherForecast(query: string): Promise<WeatherData> {
     throw new Error("Weather API Key is not configured.");
   }
 
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) {
+    throw new Error("Query location cannot be empty");
+  }
+
   // Fetch 3-day forecast including severe alerts
-  const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(query)}&days=3&aqi=no&alerts=yes`;
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(trimmedQuery)}&days=3&aqi=no&alerts=yes`;
 
   try {
     const res = await fetch(url, { next: { revalidate: 1800 } }); // Cache for 30 mins
@@ -70,7 +83,7 @@ export async function getWeatherForecast(query: string): Promise<WeatherData> {
     }
     return await res.json();
   } catch (error) {
-    console.error("Error fetching weather forecast:", error);
+    logger.error("Error fetching weather forecast:", error);
     throw error;
   }
 }

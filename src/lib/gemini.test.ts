@@ -29,7 +29,7 @@ vi.mock('@google/generative-ai', () => {
   };
 });
 
-import { generatePreparednessPlan, askSafetyAssistant, getTravelAdvisory } from './gemini';
+import { generatePreparednessPlan, askSafetyAssistant, getTravelAdvisory } from '@/services/gemini';
 
 describe('Gemini Integration Services', () => {
   beforeEach(() => {

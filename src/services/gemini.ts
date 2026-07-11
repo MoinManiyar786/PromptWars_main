@@ -1,4 +1,11 @@
+/**
+ * @module GeminiService
+ * @description Wraps the Google Gemini API (gemini-2.5-flash) to provide
+ * safety advisories, emergency preparedness plans, and citizen query assistance.
+ */
+
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { logger } from '@/lib/logger';
 
 const apiKey = process.env.GEMINI_API_KEY;
 let genAI: GoogleGenerativeAI | null = null;
@@ -6,7 +13,7 @@ let genAI: GoogleGenerativeAI | null = null;
 if (apiKey) {
   genAI = new GoogleGenerativeAI(apiKey);
 } else {
-  console.error("GEMINI_API_KEY is not defined in environment variables.");
+  logger.error("GEMINI_API_KEY is not defined in environment variables.");
 }
 
 export async function generatePreparednessPlan(
@@ -42,7 +49,7 @@ export async function generatePreparednessPlan(
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (error) {
-    console.error("Error generating plan with Gemini:", error);
+    logger.error("Error generating plan with Gemini:", error);
     throw error;
   }
 }
@@ -72,7 +79,7 @@ export async function askSafetyAssistant(
     const result = await chat.sendMessage(userQuery);
     return result.response.text();
   } catch (error) {
-    console.error("Error in safety assistant chat:", error);
+    logger.error("Error in safety assistant chat:", error);
     throw error;
   }
 }
@@ -108,7 +115,7 @@ export async function getTravelAdvisory(
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (error) {
-    console.error("Error generating travel advisory:", error);
+    logger.error("Error generating travel advisory:", error);
     throw error;
   }
 }

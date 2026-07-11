@@ -5,6 +5,7 @@ import { Loader2, Navigation, Compass, ShieldAlert, MapPin } from 'lucide-react'
 import { getTravelAdvisoryAction } from '@/app/actions';
 import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api';
 import { WeatherData } from '@/services/weather';
+import { logger } from '@/lib/logger';
 
 const mapContainerStyle = {
   width: '100%',
@@ -73,7 +74,7 @@ export default function TravelTab() {
               if (status === window.google.maps.DirectionsStatus.OK && result) {
                 setDirections(result);
               } else {
-                console.warn('Google Maps Directions request failed:', status);
+                logger.warn('Google Maps Directions request failed:', status);
               }
             }
           );

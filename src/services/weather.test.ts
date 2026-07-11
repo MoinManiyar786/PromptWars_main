@@ -60,4 +60,9 @@ describe('Weather Service', () => {
 
     await expect(getWeatherForecast('InvalidCity')).rejects.toThrow('API key is invalid or expired');
   });
+
+  it('rejects empty location queries for security boundary validation', async () => {
+    await expect(getWeatherForecast('')).rejects.toThrow('Query location cannot be empty');
+    await expect(getWeatherForecast('   ')).rejects.toThrow('Query location cannot be empty');
+  });
 });

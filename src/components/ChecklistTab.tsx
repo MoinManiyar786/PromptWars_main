@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckSquare, Square, Trash2, Plus, ListTodo } from 'lucide-react';
-import { db } from '@/lib/firebase';
+import { db } from '@/services/firebase';
 import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
+import { logger } from '@/lib/logger';
 
 interface ChecklistItem {
   id: string;
@@ -55,7 +56,7 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
             }
           }
         } catch (err) {
-          console.warn("Firestore access error, falling back to local storage:", err);
+          logger.warn("Firestore access error, falling back to local storage:", err);
         }
       }
 
@@ -65,7 +66,7 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
         try {
           setItems(JSON.parse(local));
         } catch (e) {
-          console.error(e);
+          logger.error("JSON parse failure in checklist:", e);
         }
       }
       setFirebaseStatus('local');
@@ -85,7 +86,7 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
         await setDoc(docRef, { items: updatedItems, lastUpdated: new Date().toISOString() });
         setFirebaseStatus('connected');
       } catch (err) {
-        console.warn("Firestore sync failed, keeping local copy active:", err);
+        logger.warn("Firestore sync failed, keeping local copy active:", err);
       }
     }
   };

@@ -1,3 +1,9 @@
+/**
+ * @module ServerActions
+ * @description Exposes secure, server-side actions to fetch weather forecasts
+ * and call generative AI APIs without exposing private keys to the browser.
+ */
+
 'use server';
 
 import { getWeatherForecast } from '@/services/weather';
@@ -5,7 +11,7 @@ import {
   generatePreparednessPlan,
   askSafetyAssistant,
   getTravelAdvisory,
-} from '@/lib/gemini';
+} from '@/services/gemini';
 
 export async function getWeatherAction(query: string) {
   try {

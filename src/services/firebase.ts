@@ -1,6 +1,13 @@
+/**
+ * @module FirebaseService
+ * @description Handles client-side initialization of Firebase Auth and Firestore DB
+ * with graceful degrading fallbacks to browser localStorage if unconfigured.
+ */
+
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
+import { logger } from '@/lib/logger';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -20,10 +27,10 @@ try {
     auth = getAuth(app);
     db = getFirestore(app);
   } else {
-    console.warn("Firebase configuration variables are missing. Using local fallback.");
+    logger.warn("Firebase configuration variables are missing. Using local fallback.");
   }
 } catch (error) {
-  console.error("Failed to initialize Firebase:", error);
+  logger.error("Failed to initialize Firebase:", error);
 }
 
 export { auth, db };
