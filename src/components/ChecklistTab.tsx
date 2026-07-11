@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckSquare, Square, Trash2, Plus, ListTodo, CloudLightning, RefreshCw } from 'lucide-react';
+import { CheckSquare, Square, Trash2, Plus, ListTodo } from 'lucide-react';
 import { db } from '@/lib/firebase';
-import { collection, doc, setDoc, getDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 
 interface ChecklistItem {
   id: string;
@@ -101,10 +101,12 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
       }));
 
       const merged = [...items, ...newItems];
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setItems(merged);
       saveChecklist(merged);
       onImportHandled();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [importedItems]);
 
   const toggleItem = (id: string) => {
@@ -219,7 +221,7 @@ export default function ChecklistTab({ importedItems, onImportHandled }: Checkli
             <select
               id="checklist-category-select"
               value={newItemCategory}
-              onChange={(e: any) => setNewItemCategory(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setNewItemCategory(e.target.value as 'critical' | 'household' | 'medical' | 'custom')}
               className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
             >
               <option value="custom">Custom</option>

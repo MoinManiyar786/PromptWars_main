@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Users, Home, MapPin, Loader2, FileText, CheckSquare, Plus, Check } from 'lucide-react';
+import { Shield, Users, Home, MapPin, Loader2, FileText, CheckSquare, Check } from 'lucide-react';
 import { generatePlanAction } from '@/app/actions';
 import { WeatherData } from '@/services/weather';
 
@@ -58,7 +57,7 @@ export default function PlannerTab({
       } else {
         setError(res.error || 'Failed to generate plan');
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred during AI plan generation.');
     } finally {
       setLoading(false);
@@ -106,7 +105,7 @@ export default function PlannerTab({
   // Basic custom markdown renderer to render bold, lists, headings beautifully
   const renderMarkdown = (text: string) => {
     return text.split('\n').map((line, index) => {
-      let trimmed = line.trim();
+      const trimmed = line.trim();
 
       if (trimmed.startsWith('###')) {
         return (
@@ -306,7 +305,7 @@ export default function PlannerTab({
             <Shield className="h-12 w-12 text-slate-650 mb-3" />
             <h4 className="text-sm font-semibold text-slate-350">No Preparedness Plan Generated</h4>
             <p className="text-xs text-slate-450 mt-1 max-w-xs">
-              Configure your details in the panel and click "Generate" to construct a personalized monsoon plan.
+              Configure your details in the panel and click &quot;Generate&quot; to construct a personalized monsoon plan.
             </p>
           </div>
         )}

@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Bot, User, Loader2, Sparkles, MessageCircle, AlertCircle } from 'lucide-react';
+import { Send, Bot, User, Loader2, Sparkles, AlertCircle } from 'lucide-react';
 import { askAssistantAction } from '@/app/actions';
 
 interface Message {
@@ -28,12 +27,8 @@ Ask me anything about storm safety, how to prepare, dealing with floods, or gene
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
   const handleSend = async (textToSend: string) => {
@@ -59,7 +54,7 @@ Ask me anything about storm safety, how to prepare, dealing with floods, or gene
       } else {
         setError(res.error || 'Failed to get safety advice');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred during chat transmission.');
     } finally {
       setLoading(false);

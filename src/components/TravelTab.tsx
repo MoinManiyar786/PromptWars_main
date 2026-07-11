@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, Loader2, Navigation, AlertTriangle, Compass, ShieldAlert, CloudSun, MapPin, CheckCircle2 } from 'lucide-react';
+import { Loader2, Navigation, Compass, ShieldAlert, MapPin } from 'lucide-react';
 import { getTravelAdvisoryAction } from '@/app/actions';
 import { GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api';
+import { WeatherData } from '@/services/weather';
 
 const mapContainerStyle = {
   width: '100%',
@@ -33,7 +33,7 @@ export default function TravelTab() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [advisory, setAdvisory] = useState<string | null>(null);
-  const [weatherData, setWeatherData] = useState<any | null>(null);
+  const [weatherData, setWeatherData] = useState<{ origin: WeatherData; destination: WeatherData } | null>(null);
   
   // Directions state
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
@@ -81,23 +81,17 @@ export default function TravelTab() {
       } else {
         setError(res.error || 'Failed to analyze route safety');
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred during travel planning.');
     } finally {
       setLoading(false);
     }
   };
 
-  const getRiskColor = (text: string) => {
-    const uppercase = text.toUpperCase();
-    if (uppercase.includes('HIGH')) return 'text-red-400 border-red-800/80 bg-red-950/20';
-    if (uppercase.includes('MEDIUM') || uppercase.includes('MODERATE')) return 'text-amber-400 border-amber-800/80 bg-amber-950/20';
-    return 'text-emerald-400 border-emerald-800/80 bg-emerald-950/20';
-  };
 
   const renderMarkdown = (text: string) => {
     return text.split('\n').map((line, index) => {
-      let trimmed = line.trim();
+      const trimmed = line.trim();
 
       if (trimmed.startsWith('###')) {
         return (
@@ -222,6 +216,7 @@ export default function TravelTab() {
                 <span className="text-[10px] text-slate-400">Origin ({weatherData.origin.location.name})</span>
                 <div className="flex items-center gap-1.5">
                   <span className="text-sm font-bold text-white">{weatherData.origin.current.temp_c}°C</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https:${weatherData.origin.current.condition.icon}`}
                     alt="weather icon"
@@ -235,6 +230,7 @@ export default function TravelTab() {
                 <span className="text-[10px] text-slate-400">Dest ({weatherData.destination.location.name})</span>
                 <div className="flex items-center gap-1.5">
                   <span className="text-sm font-bold text-white">{weatherData.destination.current.temp_c}°C</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https:${weatherData.destination.current.condition.icon}`}
                     alt="weather icon"

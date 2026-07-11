@@ -75,30 +75,32 @@ export default function Home() {
         </header>
 
         {/* Tab Navigation */}
-        <nav className="flex flex-wrap gap-2 border-b border-slate-900 pb-4 mb-8" role="tablist" aria-label="Jal-Kavach Portal sections">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                id={`tab-${tab.id}`}
-                onClick={() => setActiveTab(tab.id)}
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`panel-${tab.id}`}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 border ${
-                  isActive
-                    ? 'bg-cyan-600/10 border-cyan-500/50 text-cyan-400 shadow-lg shadow-cyan-950/20'
-                    : 'bg-slate-950/30 border-slate-900 text-slate-350 hover:text-slate-200 hover:border-slate-800'
-                }`}
-              >
-                <Icon className="w-4 h-4" aria-hidden="true" />
-                <span>{tab.name}</span>
-              </button>
-            );
-          })}
-        </nav>
+        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 p-1.5 rounded-2xl mb-8 h-fit">
+          <nav className="flex flex-wrap gap-1" role="tablist" aria-label="Jal-Kavach Portal sections">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  id={`tab-${tab.id}`}
+                  onClick={() => setActiveTab(tab.id)}
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`panel-${tab.id}`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-350 border ${
+                    isActive
+                      ? 'bg-cyan-950/60 border-cyan-500/40 text-cyan-400 shadow-lg shadow-cyan-950/30'
+                      : 'bg-transparent border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" aria-hidden="true" />
+                  <span>{tab.name}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
 
         {/* Main Content Area */}
         <main className="flex-1">

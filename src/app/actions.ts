@@ -11,8 +11,9 @@ export async function getWeatherAction(query: string) {
   try {
     const data = await getWeatherForecast(query);
     return { success: true, data };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Failed to fetch weather data' };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { success: false, error: message || 'Failed to fetch weather data' };
   }
 }
 
@@ -25,8 +26,9 @@ export async function generatePlanAction(
   try {
     const plan = await generatePreparednessPlan(familySize, location, housingType, weatherForecast);
     return { success: true, plan };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Failed to generate plan' };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { success: false, error: message || 'Failed to generate plan' };
   }
 }
 
@@ -37,8 +39,9 @@ export async function askAssistantAction(
   try {
     const reply = await askSafetyAssistant(userQuery, chatHistory);
     return { success: true, reply };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Failed to get answer' };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { success: false, error: message || 'Failed to get answer' };
   }
 }
 
@@ -62,7 +65,8 @@ export async function getTravelAdvisoryAction(origin: string, destination: strin
         destination: destData,
       },
     };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Failed to analyze route safety' };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { success: false, error: message || 'Failed to analyze route safety' };
   }
 }

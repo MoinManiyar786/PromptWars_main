@@ -1,16 +1,9 @@
-import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { getWeatherForecast } from './weather';
 
 global.fetch = vi.fn();
 
 describe('Weather Service', () => {
-  let getWeatherForecast: any;
-
-  beforeAll(async () => {
-    process.env.NEXT_PUBLIC_WEATHER_API_KEY = 'mock_weather_key';
-    const mod = await import('./weather');
-    getWeatherForecast = mod.getWeatherForecast;
-  });
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -34,6 +27,7 @@ describe('Weather Service', () => {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
@@ -56,6 +50,7 @@ describe('Weather Service', () => {
       error: { message: 'API key is invalid or expired' }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (fetch as any).mockResolvedValueOnce({
       ok: false,
       status: 400,

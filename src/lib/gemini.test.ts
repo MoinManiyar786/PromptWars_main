@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Define mock text containing all keywords to satisfy all tests
 const mockResultText = '# Personalized Preparedness Plan | ## Travel Advisory | Stay indoors away from metallic structures during lightning.';
 
 vi.mock('@google/generative-ai', () => {
   class MockGoogleGenerativeAI {
-    constructor(apiKey: string) {}
-    getGenerativeModel(config: { model: string }) {
+    constructor() {}
+    getGenerativeModel() {
       return {
         generateContent: vi.fn().mockResolvedValue({
           response: {
@@ -29,19 +29,9 @@ vi.mock('@google/generative-ai', () => {
   };
 });
 
+import { generatePreparednessPlan, askSafetyAssistant, getTravelAdvisory } from './gemini';
+
 describe('Gemini Integration Services', () => {
-  let generatePreparednessPlan: any;
-  let askSafetyAssistant: any;
-  let getTravelAdvisory: any;
-
-  beforeAll(async () => {
-    process.env.GEMINI_API_KEY = 'mock_gemini_key';
-    const mod = await import('./gemini');
-    generatePreparednessPlan = mod.generatePreparednessPlan;
-    askSafetyAssistant = mod.askSafetyAssistant;
-    getTravelAdvisory = mod.getTravelAdvisory;
-  });
-
   beforeEach(() => {
     vi.clearAllMocks();
   });

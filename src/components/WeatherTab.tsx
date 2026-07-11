@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Wind, Droplets, CloudRain, AlertTriangle, CloudSun, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Search, MapPin, Wind, Droplets, CloudRain, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { getWeatherAction } from '@/app/actions';
 import { WeatherData } from '@/services/weather';
 
@@ -17,7 +16,7 @@ export default function WeatherTab({ onLocationChange, initialWeatherData }: Wea
   const [error, setError] = useState<string | null>(null);
   const [weather, setWeather] = useState<WeatherData | null>(initialWeatherData);
 
-  const fetchWeather = async (locationName: string) => {
+  const fetchWeather = useCallback(async (locationName: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -28,18 +27,19 @@ export default function WeatherTab({ onLocationChange, initialWeatherData }: Wea
       } else {
         setError(res.error || 'Failed to fetch weather');
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
-  };
+  }, [onLocationChange]);
 
   useEffect(() => {
     if (!weather) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchWeather('Mumbai');
     }
-  }, []);
+  }, [weather, fetchWeather]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,6 +141,7 @@ export default function WeatherTab({ onLocationChange, initialWeatherData }: Wea
                 </div>
 
                 <div className="flex items-center gap-4 bg-slate-900/80 border border-slate-800/60 p-4 rounded-2xl self-stretch md:self-auto justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https:${weather.current.condition.icon}`}
                     alt={weather.current.condition.text}
@@ -223,6 +224,7 @@ export default function WeatherTab({ onLocationChange, initialWeatherData }: Wea
                         </p>
                       </div>
                       <div className="flex flex-col items-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={`https:${day.day.condition.icon}`}
                           alt={day.day.condition.text}
